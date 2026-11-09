@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "news-predictor-hk"
+version = "0.1.0"
+description = "Point-in-time social and news sentiment forecasting assessment for Hong Kong equities"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=2.1,<3", "numpy>=1.26,<3", "scikit-learn>=1.4,<2",
+  "joblib>=1.3,<2", "apify-client>=1.6,<4", "exa-py>=1.0,<3",
+  "yfinance>=0.2.55,<2", "python-dotenv>=1,<2", "plotly>=5.20,<7",
+  "nbformat>=5.9,<6", "ipykernel>=6.29,<8"
+]
+[project.optional-dependencies]
+sentiment = ["transformers>=4.45,<6", "torch>=2.2"]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+news-predictor = "news_predictor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

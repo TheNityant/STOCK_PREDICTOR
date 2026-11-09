@@ -1,0 +1,7 @@
+[
+  {"ticker":"0700.HK","futu_symbol":"HK.00700","name":"Tencent Holdings","aliases":["騰訊","Tencent","00700"],"exchange":"HKEX"},
+  {"ticker":"9988.HK","futu_symbol":"HK.09988","name":"Alibaba Group","aliases":["阿里巴巴","Alibaba","09988"],"exchange":"HKEX"},
+  {"ticker":"1810.HK","futu_symbol":"HK.01810","name":"Xiaomi","aliases":["小米","Xiaomi","01810"],"exchange":"HKEX"},
+  {"ticker":"3690.HK","futu_symbol":"HK.03690","name":"Meituan","aliases":["美團","Meituan","03690"],"exchange":"HKEX"},
+  {"ticker":"1211.HK","futu_symbol":"HK.01211","name":"BYD Company","aliases":["比亞迪","BYD","01211"],"exchange":"HKEX"}
+]
