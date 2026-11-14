@@ -1,42 +1,17 @@
-# NEWS_PREDICTOR — Hong Kong sentiment → next-close forecasting
+# STOCK_PREDICTOR — HengSeng sentiment price prediction
 
-**Notebook-first internship assessment project.** A Python workflow to collect social posts through Apify, retrieve Exa financial news, align publish timestamps to Hong Kong trading-session cutoffs, engineer sentiment and OHLCV features, train a next-session **return** regressor, evaluate on later unseen sessions, and produce an HTML/CSV report.
+**CrowdWisdomTrading AI Agents internship assessment · Notebook-first implementation.** A Python workflow to collect social posts through Apify, retrieve Exa financial news, align publish timestamps to Hong Kong trading-session cutoffs, engineer sentiment and OHLCV features, train a next-session **return** regressor, evaluate on later unseen sessions, and produce an HTML/CSV report.
 
-> **Status: working, tested codebase; NOT a pre-trained, proven stock predictor.** No API keys or live historical sentiment datasets were supplied. Training deliberately refuses to run on the 10-day-only social data if there are fewer than 60 fully observed daily examples. No results have been fabricated. Read [source and licensing review](docs/SOURCES.md).
+> **Status: implementation and tests only; no verified real-data forecasting results yet.** No API keys or live historical sentiment datasets were supplied. Training deliberately refuses to run on the 10-day-only social data if there are fewer than 60 fully observed daily examples. No results have been fabricated. Read [source and licensing review](docs/SOURCES.md).
 
-## Web dashboard + REST API (new)
+## What this repository delivers
 
-This project now also contains a **FastAPI REST API** and a single-page, responsive HTML/CSS/JavaScript dashboard. This is a *presentation layer* over the notebook — it does **not** replace the notebook's data acquisition, training, or evaluation stages.
+- A Jupyter notebook to select a ticker, collect social/news/price data, inspect it, score sentiment, train/evaluate regression, and create visual reports.
+- Reusable Python modules for Apify LIHKG ingestion, optional authorized Futu CLI ingestion, Exa news, historical prices, feature engineering, model fitting, and HTML/CSV reports.
+- A CLI (`collect`, `train`, `predict`, `report`) and pipeline tests for reproducibility.
+- Configuration, data schemas, provider documentation, and safe credential handling.
 
-**Try it without credentials** (synthetic demo is enabled by default):
-
-```bash
-python -m pip install -e ".[test]"
-uvicorn news_predictor.web.app:app --reload --host 127.0.0.1 --port 8000
-```
-
-- Dashboard: http://127.0.0.1:8000/
-- API interactive docs: http://127.0.0.1:8000/docs
-- REST examples:
-
-```bash
-curl http://127.0.0.1:8000/api/health
-curl 'http://127.0.0.1:8000/api/overview?mode=demo&sort_by=mentions'
-curl 'http://127.0.0.1:8000/api/assets/0700.HK/analysis?mode=demo'
-curl 'http://127.0.0.1:8000/api/overview?mode=real'
-```
-
-**Critical distinction:** Demo mode is wholly synthetic and fixed as of 2026-11-13; its mocked prices, sentiment, forecasts, signals and even example backtest metrics are fictional. They **must never be presented as live market data, real trained forecasts, or evidence of model accuracy**. Demo uses a deterministic seed and requires zero API keys. The in-app banner, forecast labels and evaluation cards carry this disclosure.
-
-**Real-results mode** reads locally available `data/raw/<ticker>/prices.csv`, `social.csv`, `news.csv`, and optional `outputs/<ticker>/evaluation.json` written by your notebook/CLI. It never performs paid HTTP scraping, starts training, exposes raw posts or credentials, or deserializes `models.joblib` inside a public request. A live next-session forecast is deliberately unavailable until you explicitly implement a safe, validated inference-export workflow. Missing local files return an empty overview or a clear 404.
-
-### Deploy on Railway or another container host
-
-The `Dockerfile` runs the dashboard/API on `0.0.0.0:$PORT`; `/api/health` is the liveness check. From Railway, select **Deploy from GitHub repo** and choose this repo, then generate a public domain in Networking. With no secrets or datasets configured, the public site remains **synthetic demo only**. Railway may charge for service resources; review your plan before deploying. See [web deployment guide](docs/WEB_DEPLOY.md).
-
-No database is required for the demo, no frontend build step is needed, and there are no POST endpoints that could trigger expenses or trades.
-
----
+**Not included:** hosted website, REST backend, deployment configuration, real API credentials, or verified trained-model performance. The assessment requests a repository link rather than a deployed URL.
 
 ## Fast start
 
@@ -100,18 +75,19 @@ news-predictor predict --ticker 0700.HK
 - **Ticker list:** Tencent (0700.HK), Alibaba (9988.HK), Xiaomi (1810.HK), Meituan (3690.HK), BYD (1211.HK). Korea is mentioned in the assessment but exchange scope is not explicit; current implementation covers Hong Kong only.
 - **Security:** `.env` and `data/raw` are ignored; never commit tokens, sourced posts, proprietary prices or untrusted joblib artifacts. Loading arbitrary `.joblib` objects is unsafe.
 
-## Why the notebook plus Python files?
+## Why a notebook plus Python modules?
 
-The `.ipynb` provides an easily reviewed end-to-end assessment walkthrough and human-readable charts. `src/news_predictor` contains unit-testable provider adapters, validation logic, and CLI workflow so we can reproduce analyses without hidden notebook state. A deployed website is not required.
+The `.ipynb` provides an easily reviewed end-to-end assessment walkthrough and human-readable charts. `src/news_predictor` contains unit-testable provider adapters, validation logic, and CLI workflow so we can reproduce analyses without hidden notebook state. The assignment asks for a GitHub/GitLab repository link, reproducible data collection and a visual report; no deployed website is required.
 
 ## Technical references
 
 See [docs/SOURCES.md](docs/SOURCES.md) for first-party Apify/Exa/Futu/sklearn/yfinance links, the third-party LIHKG Actor schema, license constraints and unresolved access blockers.
 
-## Suggested next milestones
+## Before submission
 
-- Obtain permitted Futu discussion data and confirm an **Apify-based** path for the second source, or written approval for Futu CLI.
-- Secure enough historical published-date-accurate sentiment for training and validation. If only ten days can be collected, submit a correctly labelled feasibility prototype rather than a false out-of-sample backtest.
-- Replace regular close bucketing with HKEX trading calendar including half-days; audit multilingual sentiment on hand-labeled Chinese financial posts; validate data licences before sharing.
+- Verify two permitted social sources per required exchange, and confirm an **Apify-based** path for the second source (the Futu CLI alone does not meet an Apify-only interpretation).
+- Collect sufficient historical, publication-timestamp-accurate sentiment for genuine training and out-of-sample validation; the requested recent 10-day scrape alone is insufficient for the current 60-session training gate.
+- Verify whether Korean exchanges are required, account for HKEX half-days, audit multilingual sentiment on labeled posts, and obtain data-use/redistribution permissions.
+- Submit the repository URL and non-secret Actor IDs/configuration. Do not commit or publicly disclose API tokens; arrange secure transfer only if explicitly required.
 
 **For research/evaluation only. Not investment advice, trade execution, or a forecast guarantee.**
