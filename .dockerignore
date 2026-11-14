@@ -1,0 +1,14 @@
+.git
+.env
+.env.*
+!.env.example
+.venv
+__pycache__
+.pytest_cache
+.ipynb_checkpoints
+data/
+outputs/
+*.joblib
+*.parquet
+*.csv
+*.log
