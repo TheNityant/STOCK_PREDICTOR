@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="description" content="Research dashboard for the HengSeng sentiment price prediction internship assessment." />
+  <title>HengSeng | Sentiment Intelligence</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" aria-label="Main navigation">
+    <a class="brand" href="/" aria-label="HengSeng home"><span class="brand-icon">H<span class="brand-mark">↗</span></span><span class="brand-name">HENGSENG<span>INTELLIGENCE</span></span></a>
+    <div class="side-divider"></div>
+    <div class="side-heading">RESEARCH WORKSPACE</div>
+    <a href="#overview" class="side-nav current"><span class="nav-glyph">◈</span> Market overview <span class="nav-arrow">↗</span></a>
+    <a href="#assets" class="side-nav"><span class="nav-glyph">▤</span> Asset leaderboard</a>
+    <a href="#deep-dive" class="side-nav"><span class="nav-glyph">⌁</span> Asset deep dive</a>
+    <a href="#evaluation" class="side-nav"><span class="nav-glyph">▥</span> Backtest research</a>
+    <div class="side-divider"></div>
+    <div class="side-heading">DEVELOPER</div>
+    <a class="side-nav" href="/docs" target="_blank" rel="noopener"><span class="nav-glyph">⟡</span> REST API docs <span class="nav-arrow">↗</span></a>
+    <a class="side-nav" href="https://github.com/TheNityant/STOCK_PREDICTOR" target="_blank" rel="noopener"><span class="nav-glyph">⌘</span> Source repository <span class="nav-arrow">↗</span></a>
+    <div class="sidebar-bottom"><span class="live-point"></span> Research environment<br><small>Notebook-first · API powered</small></div>
+  </aside>
+  <main class="main" id="overview">
+    <header class="topbar"><div class="breadcrumb">WORKSPACE <span>/</span> <strong>HONG KONG EQUITIES</strong></div><div class="top-right"><span id="clock" class="top-date"></span><span class="top-divider"></span><span class="workspace-avatar">HS</span></div></header>
+    <div class="content">
+      <section class="hero">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> RESEARCH TERMINAL / HKEX</div><h1>Market <em>Sentiment</em><br>Intelligence</h1><p>From public market conversations to explainable, out-of-sample stock forecasting research.</p></div>
+        <div class="mode-box"><label for="modeSelect">DATA ENVIRONMENT</label><select id="modeSelect" aria-label="Data environment"><option value="demo">Synthetic demo</option><option value="real">Local research results</option></select><span id="asOf" class="mode-asof">Illustrative data</span></div>
+      </section>
+      <div class="disclosure" role="status"><span class="disc-icon">ⓘ</span><div><strong id="noticeTitle">SYNTHETIC DEMONSTRATION</strong><span id="noticeText"> All values below are illustrative; no live prices or trained-model signals are being shown.</span></div></div>
+      <div class="stat-grid" aria-label="Market summary">
+        <article class="stat-card"><span class="stat-label">COVERED ASSETS <span class="stat-symbol">◇</span></span><div id="statAssets" class="stat-number">—</div><span class="stat-footer">Hong Kong listed candidates</span></article>
+        <article class="stat-card"><span class="stat-label">SOCIAL MENTIONS <span class="stat-symbol">⌘</span></span><div id="statMentions" class="stat-number">—</div><span class="stat-footer">Across tracked assets</span></article>
+        <article class="stat-card"><span class="stat-label">POSITIVE SENTIMENT <span class="stat-symbol">↗</span></span><div id="statPositive" class="stat-number">—</div><span class="stat-footer">Assets with net positive score</span></article>
+        <article class="stat-card"><span class="stat-label">UPWARD FORECASTS <span class="stat-symbol">◉</span></span><div id="statUp" class="stat-number">—</div><span class="stat-footer" id="upFoot">Illustrative directions only</span></article>
+      </div>
+      <section id="assets" class="section-grid">
+        <div class="panel leaderboard"><div class="panel-head"><div><div class="panel-kicker">01 / MARKET PULSE</div><h2>Asset leaderboard</h2><p>Rank by social attention, sentiment or directional signal</p></div><div class="panel-control"><label for="sortSelect">SORT BY</label><select id="sortSelect"><option value="mentions">Social mentions</option><option value="sentiment">Sentiment</option><option value="direction">Direction</option></select></div></div>
+          <div class="table-wrap"><table><thead><tr><th>ASSET</th><th>MENTIONS</th><th>SENTIMENT</th><th>MODEL DIRECTION</th><th></th></tr></thead><tbody id="assetRows"><tr><td colspan="5" class="empty-row">Loading market assets…</td></tr></tbody></table></div><p class="table-note">Select any asset to inspect its detailed signals and model research.</p></div>
+        <div class="panel source-panel"><div class="panel-head"><div><div class="panel-kicker">02 / SOURCE QUALITY</div><h2>Data provenance</h2><p>Where the signals originate</p></div></div><div class="source-list" id="sources"><div class="loading-text">Loading source metadata…</div></div><div class="source-note">Only authorized, timestamped records should be used in real research.</div></div>
+      </section>
+      <section id="deep-dive" class="detail-section"><div class="section-heading"><div><div class="panel-kicker">03 / SINGLE ASSET RESEARCH</div><h2>Asset deep dive <span class="heading-dot">.</span></h2></div><div class="ticker-selector"><label for="tickerSelect">SELECT TICKER</label><select id="tickerSelect" aria-label="Select ticker"></select></div></div>
+      <div class="detail-layout"><div class="panel chart-panel"><div class="chart-header"><div><div class="ticker-name" id="assetName">—</div><div class="ticker-code" id="assetSub">HKEX · —</div></div><div class="price-box"><div id="lastPrice" class="last-price">—</div><div id="priceChange" class="mini-change">—</div></div></div><div id="priceChart" class="chart-placeholder" aria-label="Asset price history chart">Select an asset to view its price history.</div><div class="chart-bottom"><span class="legend"><span class="legend-dot teal"></span> Closing price</span><span class="legend"><span class="legend-dot gold"></span> Historical support</span><span class="legend"><span class="legend-dot lilac"></span> Historical resistance</span><span id="chartRange" class="chart-range">70 sessions</span></div></div>
+      <div class="panel forecast-panel"><div class="panel-kicker">NEXT SESSION / FORECAST</div><div class="forecast-top"><span id="forecastStatus" class="pill">Illustrative forecast</span><span class="forecast-glyph">↗</span></div><div class="forecast-subhead">Estimated next close</div><div id="forecastPrice" class="forecast-price">—</div><div class="forecast-direction"><span id="directionBadge" class="direction-tag">—</span><span id="forecastReturn" class="return-tag">—</span></div><div class="forecast-split"><div><label>SUPPORT</label><strong id="support">—</strong></div><div><label>RESISTANCE</label><strong id="resistance">—</strong></div></div><div class="forecast-split second"><div><label>POSITION CANDIDATE</label><strong id="position">—</strong></div><div><label>AS-OF SESSION</label><strong id="sessionDate">—</strong></div></div><div id="forecastExplain" class="forecast-foot">Not a trading recommendation.</div></div></div>
+      <div class="signal-grid"><div class="panel signal-panel"><div class="panel-kicker">SENTIMENT INTELLIGENCE</div><h3>Source breakdown</h3><div id="sentimentBreakdown"></div></div><div class="panel signal-panel"><div class="panel-kicker">SOCIAL ACTIVITY</div><h3>Historical mention volume</h3><div id="mentionsChart" class="mini-chart"></div></div></div></section>
+      <section id="evaluation" class="evaluation-section"><div class="section-heading"><div><div class="panel-kicker">04 / VALIDATION</div><h2>Model evaluation <span class="heading-dot">.</span></h2></div><span id="evaluationPill" class="eval-pill">Demo backtest illustration</span></div><div class="eval-layout"><div class="panel eval-chart"><div class="eval-header"><h3>Predicted vs. actual</h3><p id="evalDescription">Synthetic results illustrate the reporting format.</p></div><div id="evaluationChart" class="chart-placeholder"></div><div class="chart-bottom"><span class="legend"><span class="legend-dot teal"></span> Actual close</span><span class="legend"><span class="legend-dot lilac"></span> Estimated close</span></div></div><div class="panel metrics-panel"><div class="panel-kicker">OUT-OF-SAMPLE METRICS</div><div class="metric-item"><span>Price MAE</span><strong id="metricMAE">—</strong></div><div class="metric-item"><span>Price RMSE</span><strong id="metricRMSE">—</strong></div><div class="metric-item"><span>No-change baseline MAE</span><strong id="metricBaseline">—</strong></div><div class="metric-item"><span>Test observations</span><strong id="metricObservations">—</strong></div><div id="metricsDisclaimer" class="metrics-note">All metrics are computed from synthetic example series. They are not evidence of financial predictive accuracy.</div></div></div></section>
+      <footer><span>HENGSENG INTELLIGENCE <span class="footer-sep">/</span> AI AGENTS DEVELOPER ASSESSMENT</span><span>Research prototype · No trade execution · <a href="/docs">API reference ↗</a></span></footer>
+    </div>
+  </main>
+</div>
+</body>
+</html>
