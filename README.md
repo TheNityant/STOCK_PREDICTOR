@@ -4,6 +4,40 @@
 
 > **Status: working, tested codebase; NOT a pre-trained, proven stock predictor.** No API keys or live historical sentiment datasets were supplied. Training deliberately refuses to run on the 10-day-only social data if there are fewer than 60 fully observed daily examples. No results have been fabricated. Read [source and licensing review](docs/SOURCES.md).
 
+## Web dashboard + REST API (new)
+
+This project now also contains a **FastAPI REST API** and a single-page, responsive HTML/CSS/JavaScript dashboard. This is a *presentation layer* over the notebook — it does **not** replace the notebook's data acquisition, training, or evaluation stages.
+
+**Try it without credentials** (synthetic demo is enabled by default):
+
+```bash
+python -m pip install -e ".[test]"
+uvicorn news_predictor.web.app:app --reload --host 127.0.0.1 --port 8000
+```
+
+- Dashboard: http://127.0.0.1:8000/
+- API interactive docs: http://127.0.0.1:8000/docs
+- REST examples:
+
+```bash
+curl http://127.0.0.1:8000/api/health
+curl 'http://127.0.0.1:8000/api/overview?mode=demo&sort_by=mentions'
+curl 'http://127.0.0.1:8000/api/assets/0700.HK/analysis?mode=demo'
+curl 'http://127.0.0.1:8000/api/overview?mode=real'
+```
+
+**Critical distinction:** Demo mode is wholly synthetic and fixed as of 2026-11-13; its mocked prices, sentiment, forecasts, signals and even example backtest metrics are fictional. They **must never be presented as live market data, real trained forecasts, or evidence of model accuracy**. Demo uses a deterministic seed and requires zero API keys. The in-app banner, forecast labels and evaluation cards carry this disclosure.
+
+**Real-results mode** reads locally available `data/raw/<ticker>/prices.csv`, `social.csv`, `news.csv`, and optional `outputs/<ticker>/evaluation.json` written by your notebook/CLI. It never performs paid HTTP scraping, starts training, exposes raw posts or credentials, or deserializes `models.joblib` inside a public request. A live next-session forecast is deliberately unavailable until you explicitly implement a safe, validated inference-export workflow. Missing local files return an empty overview or a clear 404.
+
+### Deploy on Railway or another container host
+
+The `Dockerfile` runs the dashboard/API on `0.0.0.0:$PORT`; `/api/health` is the liveness check. From Railway, select **Deploy from GitHub repo** and choose this repo, then generate a public domain in Networking. With no secrets or datasets configured, the public site remains **synthetic demo only**. Railway may charge for service resources; review your plan before deploying. See [web deployment guide](docs/WEB_DEPLOY.md).
+
+No database is required for the demo, no frontend build step is needed, and there are no POST endpoints that could trigger expenses or trades.
+
+---
+
 ## Fast start
 
 Python 3.10+ (3.12 recommended):
